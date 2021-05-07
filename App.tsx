@@ -16,15 +16,13 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobile:"",
       userName: "",
+      phone: ""
     }
     this.GameScreen = this.GameScreen.bind(this)
     this.HomeScreen = this.HomeScreen.bind(this)
     this.onChangeUserName = this.onChangeUserName.bind(this)
-    this.onChangedNumber = this.onChangedNumber.bind(this)
-
-    
+    this.updatePhone = this.updatePhone.bind(this)
   }
 
   GameScreen({navigation}) {
@@ -35,7 +33,8 @@ export default class App extends React.Component {
     // console.log("submitted: "+userName);
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Game Screen</Text>
+        <Text>Hello {this.state.userName}</Text>
+        <Text>Your number is: {this.state.phone}</Text>
         {/* <Button
           title="Go to Details"
           onPress={() => navigation.navigate('HomeScreen')}
@@ -50,24 +49,27 @@ export default class App extends React.Component {
       userName: user,
     });
   }
-
-  //this updates whenever the user types in a number
-  onChangedNumber (text: string) {
+  updatePhone(myNum: string){
     this.setState({
-      mobile: text.replace(/[^0-9]/g, ''),
+      phone: myNum,
     });
-    console.log(this.state.mobile);
   }
 
   HomeScreen({ navigation }){ 
     const [missingUserNameError, setUserNameError] = React.useState(false)
     const [missingPhoneError, setPhoneError] = React.useState(false)
+    const [phoneNum, setNumber] = React.useState("");
 
     function onChangeUserNameError(myBool: boolean){
       setUserNameError(myBool)
     }
     function onChangePhoneError(myBool: boolean){
       setPhoneError(myBool)
+    }
+    var myNum: string;
+    function onChangePhone(newNum: string){
+      myNum = newNum.replace(/[^0-9]/g, '');
+      setNumber(myNum);
     }
 
     return(
@@ -85,8 +87,9 @@ export default class App extends React.Component {
           <Text style={{ alignSelf: 'center'}}>
             Phone Number:
           </Text>
-          <TextInput style={styles.box} keyboardType="number-pad" value={this.state.mobile} maxLength={10}  placeholder="Input your number"  onChangeText={(value)=>{
-            this.onChangedNumber(value);
+          <TextInput style={styles.box} keyboardType="numeric" maxLength={10} value={phoneNum} placeholder="Input your number" onChangeText={text=>{
+            onChangePhone(text);
+            this.updatePhone(myNum);
           }}/>
           {missingPhoneError ? <Text style={styles.error}>Please type in a phone number</Text> : null}
 
@@ -96,10 +99,10 @@ export default class App extends React.Component {
               if(this.state.userName == ""){
                 return onChangeUserNameError(true)
               }
-              if(this.state.mobile == ""){
+              if(phoneNum == ""){
                 return onChangePhoneError(true)
               }
-              onSubmit(navigation,this.state.userName,this.state.mobile)
+              onSubmit(navigation,this.state.userName,phoneNum)
             }}
           ></Button>
         </View>
@@ -122,7 +125,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   outer: {
     width: 300,
-    height: 325,
+    height: 350,
     alignItems: 'center',
     alignContent: "center",
     alignSelf: "center",
