@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TextInput, Button, Dimensions, Image } from 're
 import Constants from "expo-constants";
 import {useNavigation,NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import GameScreen from "./components/GameScreen"
 
 function onSubmit(navigation, userName: string, mobile: string){
   console.log("submitted: "+userName);
@@ -19,29 +20,29 @@ export default class App extends React.Component {
       userName: "",
       phone: ""
     }
-    this.GameScreen = this.GameScreen.bind(this)
+    //this.GameScreen = this.GameScreen.bind(this)
     this.HomeScreen = this.HomeScreen.bind(this)
     this.onChangeUserName = this.onChangeUserName.bind(this)
     this.updatePhone = this.updatePhone.bind(this)
   }
 
-  GameScreen({navigation}) {
-    console.log(navigation)
-    // const { navigation } = props.navigation;
-    // const { mobile } = props.navigation.state.params.data
-    // const { userName } = props.navigation.state.params.data
-    // console.log("submitted: "+userName);
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Hello {this.state.userName}</Text>
-        <Text>Your number is: {this.state.phone}</Text>
-        {/* <Button
-          title="Go to Details"
-          onPress={() => navigation.navigate('HomeScreen')}
-        /> */}
-      </View>
-    );
-  }
+  // GameScreen({navigation}) {
+  //   console.log(navigation)
+  //   // const { navigation } = props.navigation;
+  //   // const { mobile } = props.navigation.state.params.data
+  //   // const { userName } = props.navigation.state.params.data
+  //   // console.log("submitted: "+userName);
+  //   return (
+  //     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+  //       <Text>Hello {this.state.userName}</Text>
+  //       <Text>Your number is: {this.state.phone}</Text>
+  //       {/* <Button
+  //         title="Go to Details"
+  //         onPress={() => navigation.navigate('HomeScreen')}
+  //       /> */}
+  //     </View>
+  //   );
+  // }
 
   
   onChangeUserName(user: string){
@@ -116,7 +117,7 @@ export default class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="WysparGaming" component={this.HomeScreen} />
-          <Stack.Screen name="WysparGaming: The Game" component={this.GameScreen} />
+          <Stack.Screen name="WysparGaming: The Game" component={GameScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     );
